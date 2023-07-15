@@ -1,11 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
-#def blyad(instance, filename):
-   # username = instance.first_name
-   # filename = f"media/photo/"
-   # return filename
-
 class MyUser(AbstractUser):
     GENDERS = [
         ('М', 'Мужчина'),
