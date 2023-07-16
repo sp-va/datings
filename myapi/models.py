@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
+
+
 
 class MyUser(AbstractUser):
     GENDERS = [
@@ -11,7 +14,10 @@ class MyUser(AbstractUser):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
-    photo = models.ImageField(upload_to='media/photo', blank=True, null=True)
-    def __str__(self):
-        self.username = self.username + ' ' + self.first_name + ' ' + self.last_name
-        return self.username
+    photo = models.ImageField(upload_to='myapi/', blank=True, null=True)
+    username = models.CharField(unique=True,
+                                max_length=50,
+                                validators=[RegexValidator(r'^[a-zA-Z0-9]+$',
+                                                           'Only alphanumeric characters are allowed.')],
+                                )
+
