@@ -11,3 +11,12 @@ class MyUserChangeForm(UserChangeForm):
     class Meta:
         model = MyUser
         fields = ('photo', 'gender', 'first_name', 'last_name', 'email', 'username')
+
+#class LoginForm(forms.Form):
+    #email = forms.CharField(label='Ваша почта')
+    #password = forms.CharField(widget=forms.PasswordInput,
+                               #label='Ваш пароль')
+    #class Meta:
+        #model = MyUser
+        #fields = ('email', 'password', )
+

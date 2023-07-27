@@ -1,11 +1,18 @@
 {% extends 'myapi/base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
 
-</body>
-</html>
+{% block content %}
+{% if user.is_authenticated %}
+<h2>Привет, {{current_user.first_name}} {{current_user.last_name}}</h2>
+    {% for point in menu_if_logged_in %}
+        <p><button><li><a href={% url point.url_name %}>{{ point.title }}</a></li></button></p>
+    {% endfor %}
+
+
+{% else %}
+    {% for point in menu_if_NOT_logged_in %}
+        <p><button><li><a href={% url point.url_name %}>{{ point.title }}</a></li></button></p>
+    {% endfor %}
+
+{% endif %}
+
+{% endblock %}

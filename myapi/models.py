@@ -15,9 +15,17 @@ class MyUser(AbstractUser):
     last_name = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
     photo = models.ImageField(upload_to='myapi/', blank=True, null=True)
-    username = models.CharField(unique=True,
-                                max_length=50,
-                                validators=[RegexValidator(r'^[a-zA-Z0-9]+$',
-                                                           'Only alphanumeric characters are allowed.')],
-                                )
+    #username = models.CharField(unique=True,
+                                #max_length=50,
+                                #validators=[RegexValidator(r'^[a-zA-Z0-9]+$',
+                                                           #'Only alphanumeric characters are allowed.')],
+                                #)
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
+class UsersMatching(models.Model):
+    user1_email = models.EmailField()
+    user2_email = models.EmailField()
+
+    def __str__(self):
+        return f'Пользователю {self.user1_email} нравистя пользователь {self.user2_email}'
