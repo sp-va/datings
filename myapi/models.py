@@ -24,8 +24,8 @@ class MyUser(AbstractUser):
     REQUIRED_FIELDS = []
 
 class UsersMatching(models.Model):
-    user1_email = models.EmailField()
-    user2_email = models.EmailField()
+    sender_email = models.EmailField()
+    receiver_email = models.EmailField()
 
     def __str__(self):
         return f'Пользователю {self.user1_email} нравистя пользователь {self.user2_email}'

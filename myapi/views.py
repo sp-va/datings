@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from media.myapi.watermark import watermark
@@ -8,6 +9,9 @@ from .forms import *
 from .models import *
 from django.contrib.auth import logout
 from django.contrib import messages
+from .utils import matching_users
+
+
 
 menu_if_logged_in = [
     {'title': 'Выход из аккаунта', 'url_name': 'logout'},
@@ -95,17 +99,28 @@ def logout_func(request):
     return redirect('main')
 
 
-# Информация о пользователе и оценка
+# Информация о пользователе и ОЦЕНКА
 @login_required(redirect_field_name='login')
 def user_info(request, id):
 
     user = get_object_or_404(MyUser, pk=id)
     current_user = request.user
+    user1_email = user.email
+    user2_email = current_user.email
 
     context = {
         'user': user,
         'current_user': current_user,
     }
+
+    if request.method == 'POST':
+        UsersMatching.objects.get_or_create(sender_email=user2_email, receiver_email=user1_email)
+        return HttpResponse('лайк добавлен')
+
+
+        #matching_users(user1_email, user2_email)
+        #if user_1_to_2 and user_2_to_1:
+        #return render(request, 'myapi/main.html', context=context)
 
 
     return render(request, 'myapi/match.html', context=context)

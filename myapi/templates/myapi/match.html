@@ -8,10 +8,11 @@
 <p>Имя и фамилия: {{user.first_name}} {{user.last_name}}</p>
 <img src="{{user.photo.url}}" width="500px" height="500px"/>
 
-<form method="post" enctype="text/plain">
+
+<form method="post" action={% url 'match' user.id %}>
     {% csrf_token %}
-    {{ form.as_p }}
-    <p><button ><a methods="post">Оценить пользователя</a></button></p>
+    <input type="submit" value="Оценить пользователя">
 </form>
+
 
 {% endblock %}
