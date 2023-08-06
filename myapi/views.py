@@ -9,7 +9,8 @@ from .forms import *
 from .models import *
 from django.contrib.auth import logout
 from django.contrib import messages
-from .utils import matching_users
+from .utils.send_mail import send_email_to_users
+#from django.core.mail import send_mail
 
 
 
@@ -115,12 +116,16 @@ def user_info(request, id):
 
     if request.method == 'POST':
         UsersMatching.objects.get_or_create(sender_email=user2_email, receiver_email=user1_email)
-        return HttpResponse('лайк добавлен')
+        match_1_2 = UsersMatching.objects.filter(sender_email=user2_email, receiver_email=user1_email).exists()
+        match_2_1 = UsersMatching.objects.filter(sender_email=user1_email, receiver_email=user2_email).exists()
+        if match_1_2 and match_2_1:
+            send_email_to_users(user1_email, user2_email)
+            return HttpResponse('лайк добавлен. есть совпадение')
+        else:
+            return HttpResponse('лайк добавлен')
 
 
-        #matching_users(user1_email, user2_email)
-        #if user_1_to_2 and user_2_to_1:
-        #return render(request, 'myapi/main.html', context=context)
+
 
 
     return render(request, 'myapi/match.html', context=context)
